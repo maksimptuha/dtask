@@ -4,6 +4,7 @@ import static com.dtask.schedule.Interval.Company.Grotty;
 import static com.dtask.schedule.Interval.Company.Posh;
 
 import com.dtask.subintervalsearch.SubIntervalSearch;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -46,10 +47,12 @@ public class ScheduleBuilder {
     List<Interval> poshIntervals =
         filteredIntervals.stream()
             .filter(interval -> Objects.equals(interval.getCompany(), Posh))
+            .sorted(Comparator.comparing(Interval::getDeparture))
             .collect(Collectors.toList());
     List<Interval> grottyIntervals =
         filteredIntervals.stream()
             .filter(interval -> Objects.equals(interval.getCompany(), Grotty))
+            .sorted(Comparator.comparing(Interval::getDeparture))
             .collect(Collectors.toList());
 
     return new Schedule(poshIntervals, grottyIntervals);
